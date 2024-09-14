@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import root_view,get_eligible_farmers, get_cluster_incharges, get_varieties, get_crop_types, get_sources, CreateDDRView
+from .views import root_view,get_eligible_farmers,UpdateDDRView,DeleteDDRView, get_cluster_incharges, get_varieties, get_crop_types, get_sources, CreateDDRView
 
 urlpatterns = [
     path('', root_view, name='root_view'),
@@ -9,4 +9,8 @@ urlpatterns = [
     path('crop-types/', get_crop_types, name='get_crop_types'),
     path('sources/', get_sources, name='get_sources'),
     path('create-ddr/', CreateDDRView.as_view(), name='create_ddr'),
+    path('update-ddr/<int:pk>/', UpdateDDRView.as_view(), name='update_ddr'),
+    path('delete-ddr/<int:pk>/', DeleteDDRView.as_view(), name='delete_ddr'),
+
+
 ]

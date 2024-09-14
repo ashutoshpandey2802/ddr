@@ -9,8 +9,8 @@ class FarmerSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class DDRFarmerSerializer(serializers.ModelSerializer):
-    farmer = serializers.CharField(source='farmer.code')  # Expect farmer code as input
-
+    farmer = serializers.CharField()  # Expect farmer code as input
+    ddr_qty = serializers.DecimalField(max_digits=10, decimal_places=2)  
     class Meta:
         model = DDRFarmer
         fields = ['farmer', 'ddr_qty']
@@ -58,23 +58,23 @@ class DDRSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         farmers_data = validated_data.pop('farmers')
 
-        # Handle cluster_incharge
+    # Handle cluster_incharge
         cluster_incharge_value = validated_data.pop('cluster_incharge')
         cluster_incharge = self.get_instance_by_name_or_id(ClusterIncharge, cluster_incharge_value)
 
-        # Handle variety
+    # Handle variety
         variety_value = validated_data.pop('variety')
         variety = self.get_instance_by_name_or_id(Variety, variety_value)
 
-        # Handle crop_type
+    # Handle crop_type
         crop_type_value = validated_data.pop('crop_type')
         crop_type = self.get_instance_by_name_or_id(CropType, crop_type_value)
 
-        # Handle source
+    # Handle source
         source_value = validated_data.pop('source')
         source = self.get_instance_by_name_or_id(Source, source_value)
 
-        # Create the DDR instance
+    # Create the DDR instance
         ddr = DDR.objects.create(
             cluster_incharge=cluster_incharge,
             variety=variety,
@@ -83,7 +83,7 @@ class DDRSerializer(serializers.ModelSerializer):
             **validated_data
         )
 
-        # Create DDRFarmer entries for each farmer
+    # Create DDRFarmer entries for each farmer
         for farmer_data in farmers_data:
             farmer_code = farmer_data.pop('farmer')
             try:
@@ -91,7 +91,7 @@ class DDRSerializer(serializers.ModelSerializer):
             except Farmer.DoesNotExist:
                 raise serializers.ValidationError(f"Farmer with code {farmer_code} does not exist.")
 
-            DDRFarmer.objects.create(ddr=ddr, farmer=farmer, **farmer_data)
+            DDRFarmer.objects.create(ddr=ddr, farmer=farmer, ddr_qty=farmer_data['ddr_qty'])  # Corrected to use ddr_qty
 
         return ddr
 

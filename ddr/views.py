@@ -59,3 +59,11 @@ from django.http import HttpResponse
 
 def root_view(request):
     return HttpResponse("Welcome to the Django application!")
+
+class UpdateDDRView(generics.UpdateAPIView):
+    queryset = DDR.objects.all()
+    serializer_class = DDRSerializer
+    
+class DeleteDDRView(generics.DestroyAPIView):
+    queryset = DDR.objects.all()
+    serializer_class = DDRSerializer
