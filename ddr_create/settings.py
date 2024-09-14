@@ -149,7 +149,8 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:9000', 
     'http://127.0.0.1:9000',
     'http://192.168.29.115:9000',
-    'http://localhost:3000',
+    'http://localhost:5173',
     'https://ddr-1.onrender.com',
-    'https://ddr-1.onrender.com/api/'
+    'https://ddr-1.onrender.com/api/',
+    
 ]
