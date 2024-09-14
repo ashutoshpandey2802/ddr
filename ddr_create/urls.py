@@ -7,11 +7,6 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('create-ddr/', CreateDDRView.as_view(), name='create-ddr'),
-    path('eligible-farmers/', get_eligible_farmers, name='eligible-farmers'),
-    path('cluster-incharges/', get_cluster_incharges, name='cluster-incharges'),
-    path('varieties/', get_varieties, name='varieties'),
-    path('crop-types/', get_crop_types, name='crop-types'),
-    path('sources/', get_sources, name='sources'),
+    path('api/', include('ddr.urls')),  
 ]
 urlpatterns += staticfiles_urlpatterns()

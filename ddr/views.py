@@ -4,6 +4,7 @@ from .serializers import DDRSerializer, FarmerSerializer, ClusterInchargeSeriali
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.db.models import Q
+from django.http import HttpResponse
 
 # API to get eligible farmers based on Source, Crop Type, Variety, and search query for autocomplete
 @api_view(['GET'])
@@ -52,3 +53,9 @@ def get_sources(request):
     sources = Source.objects.all()
     serializer = SourceSerializer(sources, many=True)
     return Response(serializer.data)
+
+
+from django.http import HttpResponse
+
+def root_view(request):
+    return HttpResponse("Welcome to the Django application!")
